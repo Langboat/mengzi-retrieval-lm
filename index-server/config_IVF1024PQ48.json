@@ -1,0 +1,10 @@
+{
+    "shard_count": 1,
+    "index_num_cpus": 1,
+    "index_num_gpus": 0.035,
+    "index_folder": "../index/models--Langboat--Pile-index-IVF1024PQ48/snapshots/0931b88a4495057a9745d0c5bc4a9d56bb1572e3",
+    "index_nprobe": 64,
+    "encoder_num_cpus": 1,
+    "encoder_num_gpus": 0.05,
+    "encoder_actor_count": 16
+}
