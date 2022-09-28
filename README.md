@@ -25,22 +25,72 @@ python main.py \
 # Usage
 
 ## Environment
-TODO: how to setup environment with conda
+```bash
+git clone git@github.com:bling0830/mengzi-retrieval-lm.git
+cd mengzi-retrieval-lm
+git submodule update --init --recursive
+cd transformers/
+pip install -e .
+```
 
 ## Download index and model
-TODO: how to download index and model from huggingface model hub
+### Download index
+```bash
+python -u download_index_db.py
+```
+
 
 ## Setup retrieval server
-TODO: how to setup retrieval server with pre-downloaded data
+### setup
+```bash
+cd index-server/
+ray start --head
+python -u api.py \
+--config config_IVF1024PQ48.json \
+--db_path ../db/models--Langboat--Pile-DB/snapshots/fd35bcce75db5c1b7385a28018029f7465b4e966
+```
+This command will download the db data and index data from huggingface, modify the index_folder in config_IVF1024PQ48 to the path in the index folder, and pass the snapshots in the db folder as db_path to api.py
 
+### stop
+```bash
+ray stop
+```
 ## Training
-TODO: example code
+```bash
+cd train
+python -u train.py
+```
 
 ## Inference
-TODO: example code
+```bash
+cd train
+python -u inference.py \
+    --model_path \
+    --file_name 
+```
 
 # Evaluations
-TODO: example code
-
+```bash
+cd lm-evaluation-harness
+python setup.py install
+```
+### with retrieval
+```bash
+python main.py \
+    --model retrieval \
+    --model_args pretrained=model_path \
+    --device 0 \
+    --tasks wikitext  \
+    --batch_size 1
+```
+### without retrieval
+```bash
+python main.py \
+	--model gpt2 \
+	--model_args pretrained=EleutherAI/gpt-neo-125M \
+	--device 0 \
+	--tasks wikitext \
+	--batch_size 1
+```
 # Citations
 TODO:
