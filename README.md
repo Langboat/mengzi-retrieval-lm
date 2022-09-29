@@ -31,37 +31,57 @@ cd mengzi-retrieval-lm
 git submodule update --init --recursive
 cd transformers/
 pip install -e .
+pip install -r requirement.txt
 ```
 
 ## Download index and model
 ### Download index
+Using IVF1024PQ48 as the faiss indexfactory, we submitted the index and database, which can be downloaded using the following command. 
+
+In download_index_db.py, you can specify the number of indexes and databases you want to download.
 ```bash
 python -u download_index_db.py
 ```
 
 
 ## Setup retrieval server
-### setup
+## setup
+To begin the retrieval service, develop the distributed retrieval service using the ray framework, and launch the retrieval service using api.py.
+
+You can initialize a retrieval service like this:
 ```bash
 cd index-server/
 ray start --head
 python -u api.py \
 --config config_IVF1024PQ48.json \
---db_path ../db/models--Langboat--Pile-DB/snapshots/fd35bcce75db5c1b7385a28018029f7465b4e966
+--db_path 
 ```
-This command will download the db data and index data from huggingface, modify the index_folder in config_IVF1024PQ48 to the path in the index folder, and pass the snapshots in the db folder as db_path to api.py
+`Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.`
 
-### stop
+
+· db_path：the database's download location from huggingface. 
+"../db/models—Langboat—Pile-DB/snapshots/fd35bcce75db5c1b7385a28018029f7465b4e966" is an example.  
+
+This command will download the database and index data from huggingface. 
+
+Change the index folder in the configuration file (config IVF1024PQ48) to point to the index folder's path, and send the database folder's snapshots as the db path to the api.py script.
+
+## stop
+Stop the retrieval service with the following command
 ```bash
 ray stop
 ```
 ## Training
+Use train/train.py to implement training; train/config.json can be modified to change the training parameters.
+
+You can initialize training like this:
 ```bash
 cd train
 python -u train.py
 ```
 
 ## Inference
+Utilize train/inference.py as an inference to determine the text's loss and perplexity.
 ```bash
 cd train
 python -u inference.py \
@@ -70,6 +90,7 @@ python -u inference.py \
 ```
 
 # Evaluations
+Use [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) as evaluation method
 ```bash
 cd lm-evaluation-harness
 python setup.py install
@@ -83,6 +104,7 @@ python main.py \
     --tasks wikitext  \
     --batch_size 1
 ```
+· model_path：the fitting model path
 ### without retrieval
 ```bash
 python main.py \
