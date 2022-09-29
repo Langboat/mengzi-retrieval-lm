@@ -26,6 +26,9 @@ python main.py \
 
 ## Environment
 ```bash
+conda create -n mengzi-retrieval-fit python=3.7
+conda activate mengzi-retrieval-fit
+conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c nvidia
 git clone git@github.com:bling0830/mengzi-retrieval-lm.git
 cd mengzi-retrieval-lm
 git submodule update --init --recursive
