@@ -59,7 +59,7 @@ You can manually download the fitted model from here: [https://huggingface.co/La
 ## Start
 The index server is based on FastAPI and Ray.
 With Ray's Actor, computationally intensive tasks are encapsulated asynchronously, allowing us to efficiently utilize CPU and GPU resources with just one FastAPI server instance.
-You can initialize a index server like this:
+You can initialize an index server like this:
 ```bash
 cd index-server/
 ray start --head
