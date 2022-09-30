@@ -7,10 +7,12 @@ We forked [Huggingface Transformers](https://github.com/huggingface/transformers
 Most of the model implementation is copied from
 [RETRO-pytorch](https://github.com/lucidrains/RETRO-pytorch) and [GPT-Neo](https://github.com/huggingface/transformers/blob/main/src/transformers/models/gpt_neo/modeling_gpt_neo.py). We use `transformers-cli` to add a new model named `Re_gptForCausalLM` based on GPT-Neo, and then add retrieval part to it.
 
+We uploaded the model fitted on EleutherAI/gpt-neo-125M using the 200G retrieval library.
+
 You can initialize a model like this:
 ```python
 from transformers import Re_gptForCausalLM
-model = Re_gptForCausalLM.from_pretrained(model_name)
+model = Re_gptForCausalLM.from_pretrained('Langboat/ReGPT-125M-200G')
 ```
 And evaluate the model like this:
 ```bash
@@ -102,7 +104,7 @@ python setup.py install
 ```bash
 python main.py \
     --model retrieval \
-    --model_args pretrained=model_path \
+    --model_args pretrained=Langboat/ReGPT-125M-200G \
     --device 0 \
     --tasks wikitext  \
     --batch_size 1
