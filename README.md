@@ -1,4 +1,4 @@
-# Retrieval-LM
+# Mengzi-Retrieval-LM
 
 "Retrieval" is an important way to improve the performance of language models. This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
 
@@ -47,5 +47,14 @@ TODO: example code
 # Evaluations
 TODO: example code
 
-# Citations
-TODO:
+# Citation
+```bibtex
+@software{mengzi-retrieval-lm-library,
+  title = {{Mengzi-Retrieval-LM}},
+  author = {Wang, Yulong and Bo, Lin},
+  url = {https://github.com/Langboat/mengzi-retrieval-lm},
+  month = {9},
+  year = {2022},
+  version = {0.0.1},
+}
+```
