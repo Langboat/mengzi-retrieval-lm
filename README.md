@@ -1,11 +1,10 @@
 # Mengzi-Retrieval-LM
 
-At Langboat Technology, we focus on how to enhance pre-trained models to make them lighter to satisfy real industry needs.
-And retrieval is an important method to achieve this goal.
+At Langboat Technology, we focus on enhancing pre-trained models to make them lighter to satisfy real industry needs. A retrieval-based approach(like RETRO, REALM, and RAG) is crucial to achieving this goal.
 
 This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
 
-We forked [Huggingface Transformers](https://github.com/huggingface/transformers) and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) to add retrieval support. The indexing part is implemented as an HTTP server to decouple retrieval and training better.
+We forked [Huggingface Transformers](https://github.com/huggingface/transformers) and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) to add retrieval support. The indexing part is implemented as an HTTP server to better decouple retrieval and training.
 
 Most of the model implementation is copied from
 [RETRO-pytorch](https://github.com/lucidrains/RETRO-pytorch) and [GPT-Neo](https://github.com/huggingface/transformers/blob/main/src/transformers/models/gpt_neo/modeling_gpt_neo.py). We use `transformers-cli` to add a new model named `Re_gptForCausalLM` based on GPT-Neo, and then add retrieval part to it.
@@ -96,7 +95,7 @@ python -u train.py
 ```
 
 ## Inference
-Utilize train/inference.py as an inference to determine the text's loss and perplexity.
+Utilize train/inference.py as an inference to determine the loss of a text and it's perplexity.
 ```bash
 cd train
 python -u inference.py \
