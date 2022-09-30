@@ -1,4 +1,4 @@
-# Retrieval-LM
+# Mengzi-Retrieval-LM
 
 "Retrieval" is an important way to improve the performance of language models. This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
 
@@ -23,6 +23,11 @@ python main.py \
     --tasks wikitext,lambada,winogrande,mathqa,pubmedqa  \
     --batch_size 1
 ```
+
+# Architecture
+
+![Cloud Architecture - Page 1 (1)](https://user-images.githubusercontent.com/1523477/193192744-6544da36-c281-41cc-8199-e6dde456be3b.png)
+
 
 # Usage
 
@@ -119,5 +124,15 @@ python main.py \
 	--tasks wikitext \
 	--batch_size 1
 ```
-# Citations
-TODO:
+
+# Citing Mengzi Retrieval LM
+```bibtex
+@software{mengzi-retrieval-lm-library,
+  title = {{Mengzi-Retrieval-LM}},
+  author = {Wang, Yulong and Bo, Lin},
+  url = {https://github.com/Langboat/mengzi-retrieval-lm},
+  month = {9},
+  year = {2022},
+  version = {0.0.1},
+}
+```
