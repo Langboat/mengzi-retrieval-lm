@@ -1,4 +1,4 @@
-# Retrieval-LM
+# Mengzi-Retrieval-LM
 
 "Retrieval" is an important way to improve the performance of language models. This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
 
@@ -7,10 +7,12 @@ We forked [Huggingface Transformers](https://github.com/huggingface/transformers
 Most of the model implementation is copied from
 [RETRO-pytorch](https://github.com/lucidrains/RETRO-pytorch) and [GPT-Neo](https://github.com/huggingface/transformers/blob/main/src/transformers/models/gpt_neo/modeling_gpt_neo.py). We use `transformers-cli` to add a new model named `Re_gptForCausalLM` based on GPT-Neo, and then add retrieval part to it.
 
+We uploaded the model fitted on EleutherAI/gpt-neo-125M using the 200G retrieval library.
+
 You can initialize a model like this:
 ```python
 from transformers import Re_gptForCausalLM
-model = Re_gptForCausalLM.from_pretrained(model_name)
+model = Re_gptForCausalLM.from_pretrained('Langboat/ReGPT-125M-200G')
 ```
 And evaluate the model like this:
 ```bash
@@ -22,6 +24,11 @@ python main.py \
     --batch_size 1
 ```
 
+# Architecture
+
+![Cloud Architecture - Page 1 (1)](https://user-images.githubusercontent.com/1523477/193192744-6544da36-c281-41cc-8199-e6dde456be3b.png)
+
+
 # Usage
 
 ## Environment
@@ -29,7 +36,7 @@ python main.py \
 conda create -n mengzi-retrieval-fit python=3.7
 conda activate mengzi-retrieval-fit
 conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c nvidia
-git clone git@github.com:bling0830/mengzi-retrieval-lm.git
+git clone https://github.com/Langboat/mengzi-retrieval-lm.git
 cd mengzi-retrieval-lm
 git submodule update --init --recursive
 pip install -r requirement.txt
@@ -102,7 +109,7 @@ python setup.py install
 ```bash
 python main.py \
     --model retrieval \
-    --model_args pretrained=model_path \
+    --model_args pretrained=Langboat/ReGPT-125M-200G \
     --device 0 \
     --tasks wikitext  \
     --batch_size 1
@@ -117,5 +124,15 @@ python main.py \
 	--tasks wikitext \
 	--batch_size 1
 ```
-# Citations
-TODO:
+
+# Citing Mengzi Retrieval LM
+```bibtex
+@software{mengzi-retrieval-lm-library,
+  title = {{Mengzi-Retrieval-LM}},
+  author = {Wang, Yulong and Bo, Lin},
+  url = {https://github.com/Langboat/mengzi-retrieval-lm},
+  month = {9},
+  year = {2022},
+  version = {0.0.1},
+}
+```
