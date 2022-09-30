@@ -1,6 +1,9 @@
 # Mengzi-Retrieval-LM
 
-"Retrieval" is a crucial way to improve the performance of language models. This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
+At Langboat Technology, we focus on how to enhance pre-trained models to make them lighter to satisfy real industry needs.
+And retrieval is an important method to achieve this goal.
+
+This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
 
 We forked [Huggingface Transformers](https://github.com/huggingface/transformers) and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) to add retrieval support. The indexing part is implemented as an HTTP server to decouple retrieval and training better.
 
