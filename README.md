@@ -22,6 +22,11 @@ python main.py \
     --batch_size 1
 ```
 
+# Architecture
+
+![Cloud Architecture - Page 1 (1)](https://user-images.githubusercontent.com/1523477/193192744-6544da36-c281-41cc-8199-e6dde456be3b.png)
+
+
 # Usage
 
 ## Environment
