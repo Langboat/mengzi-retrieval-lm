@@ -18,6 +18,7 @@ import zlib
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=str, help='config file')
+parser.add_argument('--db_path', type=str, help='db file')
 args = parser.parse_args()
 config = json.load(open(args.config))
 print(config)
@@ -37,7 +38,8 @@ class IndexActor(object):
             cpu_index = faiss.read_index(f'{config["index_folder"]}/{rank}')
             self.index = faiss.index_cpu_to_gpu(res, 0, cpu_index, co)
         self.index.nprobe = config['index_nprobe']
-        env = lmdb.open(f'./db/{rank}', readonly=True, readahead=True, map_size=1024*1024*1024*8)
+        db_path = args.db_path + '/' +str(rank)
+        env = lmdb.open(db_path, readonly=True, readahead=True, map_size=1024*1024*1024*8)
         # Get all records from the database
         self.records = {}
         with env.begin(write=False) as txn:

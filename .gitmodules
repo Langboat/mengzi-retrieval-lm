@@ -1,6 +1,6 @@
-[submodule "transformers"]
-	path = transformers
-	url = git@github.com:Langboat/transformers.git
 [submodule "lm-evaluation-harness"]
 	path = lm-evaluation-harness
 	url = git@github.com:Langboat/lm-evaluation-harness.git
+[submodule "transformers"]
+	path = transformers
+	url = git@github.com:Langboat/transformers.git

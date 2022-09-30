@@ -44,12 +44,12 @@ def split_token(text):
         data = {"query": [base64.b64encode(s.encode('utf-8')).decode('utf-8') for s in chunk_texts]}
         while retrieval is None:
             try:
-                #response = requests.post(request_server, headers=headers, json=data)
-                #retrieval = json.loads(response.text)
+                response = requests.post(request_server, headers=headers, json=data)
+                retrieval = json.loads(response.text)
                 # Mock retrieval
-                retrieval = []
+                """retrieval = []
                 for i in range(len(chunk_texts)):
-                    retrieval.append(['abc', 'abc'])
+                    retrieval.append(['abc', 'abc'])"""
             except Exception as e:
                 time.sleep(1)
                 print('retrieval failed' + str(e))

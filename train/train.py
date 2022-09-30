@@ -11,7 +11,6 @@ torch.backends.cudnn.deterministic = True
 print("set seed")
 
 config = json.load(open('config.json'))
-deepspeed_config = json.load(open('fitting_dp.json'))
 
 model_name = config['model_name']
 output_dir = config['output_dir']
@@ -60,7 +59,6 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=gradient_accumulation_steps,
     save_steps=save_steps,
     save_total_limit=save_total_limit,
-    deepspeed=deepspeed_config,
     fp16=fp16,
     bf16=bf16,
     weight_decay=weight_decay,
