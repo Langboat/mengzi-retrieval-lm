@@ -1,6 +1,6 @@
 # Mengzi-Retrieval-LM
 
-"Retrieval" is an important way to improve the performance of language models. This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
+"Retrieval" is a crucial way to improve the performance of language models. This repository is an experimental implementation of the retrieval-enhanced language model. **Currently, it only supports retrieval fitting on GPT-Neo.**
 
 We forked [Huggingface Transformers](https://github.com/huggingface/transformers) and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) to add retrieval support. The indexing part is implemented as an HTTP server to decouple retrieval and training better.
 
@@ -44,21 +44,22 @@ cd transformers/
 pip install -e .
 ```
 
-## Download index and model
-### Download index
-Using IVF1024PQ48 as the faiss indexfactory, we submitted the index and database, which can be downloaded using the following command. 
+## Download
+### Index and DB
+Using IVF1024PQ48 as the faiss index factory, we uploaded the index and database to the huggingface model hub, which can be downloaded using the following command. 
 
 In download_index_db.py, you can specify the number of indexes and databases you want to download.
 ```bash
 python -u download_index_db.py
 ```
+### Model
+You can manually download the fitted model from here: [https://huggingface.co/Langboat/ReGPT-125M-200G](https://huggingface.co/Langboat/ReGPT-125M-200G)
 
-
-## Setup retrieval server
-## setup
-To begin the retrieval service, develop the distributed retrieval service using the ray framework, and launch the retrieval service using api.py.
-
-You can initialize a retrieval service like this:
+## Setup index server
+## Start
+The index server is based on FastAPI and Ray.
+With Ray's Actor, computationally intensive tasks are encapsulated asynchronously, allowing us to efficiently utilize CPU and GPU resources with just one FastAPI server instance.
+You can initialize a index server like this:
 ```bash
 cd index-server/
 ray start --head
@@ -66,7 +67,8 @@ python -u api.py \
 --config config_IVF1024PQ48.json \
 --db_path 
 ```
-`Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.`
+> * **Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.**
+> * This config has been tested on the A100-40G, so if you have a different GPU, we recommend adjusting it to your hardware.
 
 
 · db_path：the database's download location from huggingface. 
@@ -76,7 +78,7 @@ This command will download the database and index data from huggingface.
 
 Change the index folder in the configuration file (config IVF1024PQ48) to point to the index folder's path, and send the database folder's snapshots as the db path to the api.py script.
 
-## stop
+## Stop
 Stop the retrieval service with the following command
 ```bash
 ray stop
