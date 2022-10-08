@@ -67,9 +67,10 @@ cd index-server/
 ray start --head
 python -u api.py \
 --config config_IVF1024PQ48.json \
---db_path 
+--db_path ../db/models—Langboat—Pile-DB/snapshots/fd35bcce75db5c1b7385a28018029f7465b4e966
 ```
-> * **Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.**
+> * **Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.
+You can view the currently downloaded index number under the db_path**
 > * This config has been tested on the A100-40G, so if you have a different GPU, we recommend adjusting it to your hardware.
 
 
@@ -81,10 +82,11 @@ This command will download the database and index data from huggingface.
 Change the index folder in the configuration file (config IVF1024PQ48) to point to the index folder's path, and send the database folder's snapshots as the db path to the api.py script.
 
 ## Stop
-Stop the retrieval service with the following command
+Stop the index server with the following command
 ```bash
 ray stop
 ```
+> * **Keep in mind that you need to keep the index server enabled during training, eval and inference**
 ## Training
 Use train/train.py to implement training; train/config.json can be modified to change the training parameters.
 
@@ -93,16 +95,16 @@ You can initialize training like this:
 cd train
 python -u train.py
 ```
-
+> * Since the index server needs to use memory resources, you better deploy the index server and model training on different GPUs
 ## Inference
 Utilize train/inference.py as an inference to determine the loss of a text and it's perplexity.
 ```bash
 cd train
 python -u inference.py \
-    --model_path \
-    --file_name 
+    --model_path Langboat/ReGPT-125M-200G \
+    --file_name data/test_data.json
 ```
-
+> * The test_data.json and train_data.json in the data folder are currently supported file formats, you can modify your data to this format.
 # Evaluations
 Use [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) as evaluation method
 ```bash
