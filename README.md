@@ -72,7 +72,7 @@ python -u api.py \
 > * **Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.
 You can view the currently downloaded index number under the db_path**
 > * This config has been tested on the A100-40G, so if you have a different GPU, we recommend adjusting it to your hardware.
-> * After deploying the index server, you need to modify  the request_server in lm-evaluation-harness/config.json and train/config.json .
+> * After deploying the index server, you need to modify the request_server in lm-evaluation-harness/config.json and train/config.json .
 > * You can reduce the encoder_actor_count in config_IVF1024PQ48.json to reduce the required memory resources.
 
 · db_path：the database's download location from huggingface. 
