@@ -26,6 +26,11 @@ python main.py \
     --batch_size 1
 ```
 
+We compute similarity using sentence_transformers's embedding as text representation. You can initialize a Sentence-BERT model like this:
+```python
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('all-MiniLM-L12-v2')
+```
 # Architecture
 
 ![Cloud Architecture - Page 1 (1)](https://user-images.githubusercontent.com/1523477/193192744-6544da36-c281-41cc-8199-e6dde456be3b.png)
@@ -108,6 +113,8 @@ python -u inference.py \
 > * The test_data.json and train_data.json in the data folder are currently supported file formats, you can modify your data to this format.
 # Evaluations
 Use [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) as evaluation method
+
+We set the seq_len of the lm-evaluation-harness to 1025 as the initial setting for model comparison because the seq_len of our model training is 1025.
 ```bash
 cd lm-evaluation-harness
 python setup.py install
@@ -131,6 +138,13 @@ python main.py \
 	--tasks wikitext \
 	--batch_size 1
 ```
+The results of the evaluation are as follows
+|  model   | wikitext word_perplexity  |
+|  ----  | ----  |
+| EleutherAI/gpt-neo-125M  | 35.8774 |
+| Langboat/ReGPT-125M-200G  | 22.115 |
+| EleutherAI/gpt-neo-1.3B  | 17.6979 |
+| Langboat/ReGPT-125M-400G  | 14.1327 |
 
 # Citing Mengzi Retrieval LM
 ```bibtex
