@@ -1,5 +1,9 @@
 from huggingface_hub import hf_hub_download
 from multiprocessing import Pool
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--num', type=int, help='the number of indexes and databases you want to download')
+args = parser.parse_args()
 
 
 def download_file(i):
@@ -21,4 +25,4 @@ def download_file(i):
 
 
 with Pool(16) as p:
-    p.map(download_file, range(200))
+    p.map(download_file, range(args.num))

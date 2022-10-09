@@ -26,6 +26,11 @@ python main.py \
     --batch_size 1
 ```
 
+We compute similarity using sentence_transformers's embedding as text representation. You can initialize a Sentence-BERT model like this:
+```python
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('all-MiniLM-L12-v2')
+```
 # Architecture
 
 ![Cloud Architecture - Page 1 (1)](https://user-images.githubusercontent.com/1523477/193192744-6544da36-c281-41cc-8199-e6dde456be3b.png)
@@ -44,6 +49,8 @@ git submodule update --init --recursive
 pip install -r requirement.txt
 cd transformers/
 pip install -e .
+cd ..
+python -c "from sentence_transformers import SentenceTransformer; model = SentenceTransformer('all-MiniLM-L12-v2')"
 ```
 
 ## Download
@@ -52,7 +59,7 @@ Using IVF1024PQ48 as the faiss index factory, we uploaded the index and database
 
 In download_index_db.py, you can specify the number of indexes and databases you want to download.
 ```bash
-python -u download_index_db.py
+python -u download_index_db.py  --num 200
 ```
 ### Model
 You can manually download the fitted model from here: [https://huggingface.co/Langboat/ReGPT-125M-200G](https://huggingface.co/Langboat/ReGPT-125M-200G)
@@ -67,11 +74,13 @@ cd index-server/
 ray start --head
 python -u api.py \
 --config config_IVF1024PQ48.json \
---db_path 
+--db_path ../db/models—Langboat—Pile-DB/snapshots/fd35bcce75db5c1b7385a28018029f7465b4e966
 ```
-> * **Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.**
+> * **Keep in mind that the config IVF1024PQ48.json shard count must match the number of downloaded indexes.
+You can view the currently downloaded index number under the db_path**
 > * This config has been tested on the A100-40G, so if you have a different GPU, we recommend adjusting it to your hardware.
-
+> * After deploying the index server, you need to modify the request_server in lm-evaluation-harness/config.json and train/config.json .
+> * You can reduce the encoder_actor_count in config_IVF1024PQ48.json to reduce the required memory resources.
 
 · db_path：the database's download location from huggingface. 
 "../db/models—Langboat—Pile-DB/snapshots/fd35bcce75db5c1b7385a28018029f7465b4e966" is an example.  
@@ -81,10 +90,11 @@ This command will download the database and index data from huggingface.
 Change the index folder in the configuration file (config IVF1024PQ48) to point to the index folder's path, and send the database folder's snapshots as the db path to the api.py script.
 
 ## Stop
-Stop the retrieval service with the following command
+Stop the index server with the following command
 ```bash
 ray stop
 ```
+> * **Keep in mind that you need to keep the index server enabled during training, eval and inference**
 ## Training
 Use train/train.py to implement training; train/config.json can be modified to change the training parameters.
 
@@ -93,18 +103,20 @@ You can initialize training like this:
 cd train
 python -u train.py
 ```
-
+> * Since the index server needs to use memory resources, you better deploy the index server and model training on different GPUs
 ## Inference
 Utilize train/inference.py as an inference to determine the loss of a text and it's perplexity.
 ```bash
 cd train
 python -u inference.py \
-    --model_path \
-    --file_name 
+    --model_path Langboat/ReGPT-125M-200G \
+    --file_name data/test_data.json
 ```
-
+> * The test_data.json and train_data.json in the data folder are currently supported file formats, you can modify your data to this format.
 # Evaluations
 Use [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) as evaluation method
+
+We set the seq_len of the lm-evaluation-harness to 1025 as the initial setting for model comparison because the seq_len of our model training is 1025.
 ```bash
 cd lm-evaluation-harness
 python setup.py install
@@ -128,6 +140,13 @@ python main.py \
 	--tasks wikitext \
 	--batch_size 1
 ```
+The results of the evaluation are as follows
+|  model   | wikitext word_perplexity  |
+|  ----  | ----  |
+| EleutherAI/gpt-neo-125M  | 35.8774 |
+| Langboat/ReGPT-125M-200G  | 22.115 |
+| EleutherAI/gpt-neo-1.3B  | 17.6979 |
+| Langboat/ReGPT-125M-400G  | 14.1327 |
 
 # Citing Mengzi Retrieval LM
 ```bibtex
