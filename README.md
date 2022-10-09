@@ -49,6 +49,8 @@ git submodule update --init --recursive
 pip install -r requirement.txt
 cd transformers/
 pip install -e .
+cd ..
+python -c "from sentence_transformers import SentenceTransformer; model = SentenceTransformer('all-MiniLM-L12-v2')"
 ```
 
 ## Download
